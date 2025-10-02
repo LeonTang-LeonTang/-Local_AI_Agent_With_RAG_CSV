@@ -16,7 +16,9 @@ if add_documents:
     
     for i, row in df.iterrows():
         document = Document(
+            #page_content is what we will query
             page_content=row["Title"] + " " + row["Review"],
+            #metadata is additional info but we won't query based on the metadata.
             metadata={"rating": row["Rating"], "date": row["Date"]},
             id=str(i)
         )
@@ -33,5 +35,5 @@ if add_documents:
     vector_store.add_documents(documents=documents, ids=ids)
     
 retriever = vector_store.as_retriever(
-    search_kwargs={"k": 5}
+    search_kwargs={"k": 5} # look up five relevant reviews and pass them to the llm
 )
